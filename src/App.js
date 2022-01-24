@@ -5,15 +5,46 @@ const api = {
   key:"ed2022a33e662f3844b15f89f57132b5",
   base:"https://api.openweathermap.org/data/2.5/"
 }
-
+var units = "C";
 function App() {
 
   const [query, setQuery] =useState('')
   const [weather, setWeather] = useState({})
+  
+  var unitMesure = "metric";
+  var city ="";
+ 
 
   const search = evt =>{
     if(evt.key === "Enter"){
-      fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
+      fetch(`${api.base}weather?q=${query}&units=${unitMesure}&APPID=${api.key}`)
+      .then(res => res.json())
+      .then(result => {
+        setWeather(result)
+        setQuery('')
+        console.log(result)
+      })
+    }
+  }
+    
+   let changeUnits = ()=>{
+    city = weather.name;
+    if(units === "C"){
+      unitMesure = "imperial";
+      city = weather.name;
+      units = "F"
+
+      fetch(`${api.base}weather?q=${city}&units=${unitMesure}&APPID=${api.key}`)
+      .then(res => res.json())
+      .then(result => {
+        setWeather(result)
+        setQuery('')
+        console.log(result)
+      })
+    }else{
+      unitMesure = "metric";
+      units = "C"
+      fetch(`${api.base}weather?q=${city}&units=${unitMesure}&APPID=${api.key}`)
       .then(res => res.json())
       .then(result => {
         setWeather(result)
@@ -57,12 +88,16 @@ function App() {
           </div>
           <div className="weather-box">
             <div className='temp'>
-              {Math.round(weather.main.temp)}
+            {Math.round(weather.main.temp)}&#xb0;{units}
             </div>
             <div className='weather'>{weather.weather[0].main} </div>
+            
           </div>
         </div>
         ):('')}
+        <button className='button6'
+            onClick={changeUnits}
+            >C&#8660;F</button>
         
       </main>
     </div>
