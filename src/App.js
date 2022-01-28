@@ -95,9 +95,11 @@ function App() {
           </div>
         </div>
         ):('')}
-        <button className='button6'
+        <button 
+            className='button6'
             onClick={changeUnits}
-            >C&#8660;F</button>
+            >C&#8660;F
+        </button>
         
       </main>
     </div>
